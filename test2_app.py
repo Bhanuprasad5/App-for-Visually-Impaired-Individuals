@@ -22,13 +22,15 @@ Additional Tips:
 - Use words that evoke auditory sensations (e.g., "loud," "quiet," "rumbling").
 - Avoid using phrases like "looks like" or "seems like" as they rely on visual understanding.'''
 
-SAFE_NAVIGATION_PROMPT = '''Prompt: "Describe the image in detail for someone visually impaired, focusing on objects, obstacles, 
-and potential hazards. Highlight the types, positions, and spatial relationships of these elements in a clear, accessible way. Emphasize elements critical for safe navigation, such as pathways, obstacles, or moving objects. Use simple, tactile, and auditory language, avoiding visual metaphors or comparisons. Provide actionable safety recommendations where relevant."
+SAFE_NAVIGATION_PROMPT = '''Prompt: "Describe the image in a way that is accessible to a visually impaired person. Focus on identifying objects, obstacles, and potential hazards critical for safe navigation. Provide clear details about their positions and relationships in the space. Use simple and direct language, avoiding visual metaphors. Recommend safety precautions or actions where applicable."
+
 Additional Tips:
-Include tactile descriptions (e.g., "hard," "bumpy," "flat") for surfaces and objects.
-Mention auditory cues if applicable (e.g., "whirring noise from a fan," "steady hum of a refrigerator").
-Use precise terms like "to the left," "in front," or "near the corner" to describe positions.
-Suggest clear actions to enhance safety, such as "step carefully to avoid the raised edge."'''
+
+Specify the types of objects (e.g., furniture, barriers, pathways).
+Describe spatial relationships clearly (e.g., "near," "to the left," "in front").
+Use straightforward, sensory language where applicable (e.g., "solid," "textured," "silent").
+Highlight key elements for safe movement, such as pathways or clearances.
+Suggest practical safety measures or precautions (e.g., "maintain distance," "step carefully")."'''
 # Helper functions
 def extract_text_from_image(image, prompt):
     """Extract text from an image using the Gemini API."""
