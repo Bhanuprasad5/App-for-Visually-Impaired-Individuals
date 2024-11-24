@@ -113,7 +113,9 @@ if uploaded_file is not None:
     elif feature_choice == "Safe Navigation":
         st.subheader("Safe Navigation Analysis (Text-to-Speech Available)")
         navigation_analysis = analyze_safe_navigation(img, SAFE_NAVIGATION_PROMPT)
-        st.text_area("Safe Navigation Analysis", navigation_analysis, height=200)
+        # Display the analysis text fully without a scroll bar
+        st.write(navigation_analysis)  # Replace st.text_area with st.write
         if navigation_analysis:  # Only show Text-to-Speech button if analysis exists
             if st.button("Convert Analysis to Speech"):
                 text_to_speech(navigation_analysis)
+
