@@ -2,3 +2,4 @@ google.generativeai
 streamlit
 Pillow
 gtts
+matplotlib
