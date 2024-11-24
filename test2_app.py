@@ -16,7 +16,7 @@ Ensure that the text is extracted accurately, including any formatting or spacin
 If there is no text present in the image, respond politely with the message: 'There is no text in the image.' 
 Do not include any additional information or output other than the extracted text or the polite message.'''
 
-ACCESSIBLE_DESCRIPTION_PROMPT = '''Describe the image in a way that is accessible to a visually impaired person. Focus on tactile and auditory details, and avoid using visual metaphors.
+ACCESSIBLE_DESCRIPTION_PROMPT = ''' Describe the image in a way that is accessible to a visually impaired person. Focus on tactile and auditory details, and avoid using visual metaphors.
 Additional Tips:
 - Use words that evoke tactile sensations (e.g., "smooth," "rough," "soft").
 - Use words that evoke auditory sensations (e.g., "loud," "quiet," "rumbling").
@@ -30,10 +30,10 @@ Specify the types of objects (e.g., furniture, barriers, pathways).
 Describe spatial relationships clearly (e.g., "near," "to the left," "in front").
 Use straightforward, sensory language where applicable (e.g., "solid," "textured," "silent").
 Highlight key elements for safe movement, such as pathways or clearances.
-Suggest practical safety measures or precautions (e.g., "maintain distance," "step carefully")."'''
+Suggest practical safety measures or precautions (e.g., "maintain distance," "step carefully").'''
+
 # Helper functions
 def extract_text_from_image(image, prompt):
-    """Extract text from an image using the Gemini API."""
     try:
         model = genai.GenerativeModel(model_name=MODEL_NAME)
         response = model.generate_content([image, prompt])
@@ -42,7 +42,6 @@ def extract_text_from_image(image, prompt):
         return f"Error: {e}"
 
 def generate_description(image, prompt):
-    """Generate an accessible description using Gemini API."""
     try:
         model = genai.GenerativeModel(model_name=MODEL_NAME)
         response = model.generate_content([image, prompt])
@@ -51,7 +50,6 @@ def generate_description(image, prompt):
         return f"Error: {e}"
 
 def analyze_safe_navigation(image, prompt):
-    """Analyze the image for safe navigation using the Gemini API."""
     try:
         model = genai.GenerativeModel(model_name=MODEL_NAME)
         response = model.generate_content([image, prompt])
@@ -71,51 +69,80 @@ def text_to_speech(text, language='en', output_file='output.mp3'):
         st.error(f"Error: {e}")
 
 # Streamlit App Layout
-st.set_page_config(page_title="VisionAssist", page_icon="️", layout="centered")
+st.set_page_config(
+    page_title="VisionAssist AI",
+    page_icon="🌟",
+    layout="centered"
+)
+
+# Initialize session state for active feature
+if "active_feature" not in st.session_state:
+    st.session_state.active_feature = None
+if "description" not in st.session_state:
+    st.session_state.description = ""
+
+# Sidebar - Features and Info
+st.sidebar.title("VisionAssist AI 🌟")
+st.sidebar.markdown("""
+### About VisionAssist AI
+VisionAssist AI leverages advanced **Generative AI** to provide accessible solutions for visually impaired individuals. Our app transforms visual data into meaningful descriptions, extracted text, or safe navigation insights.
+
+#### Features:
+1. **Scene Description**  
+   Analyze images and generate rich, detailed descriptions using accessible language. These descriptions focus on tactile and auditory elements to help visually impaired individuals understand their surroundings.
+
+2. **Text Extraction**  
+   Extract text embedded within images, making it accessible for those unable to view or read the content visually. This feature ensures accurate text recognition, including formatting.
+
+3. **Safe Navigation Guidance**  
+   Identify objects, obstacles, and spatial relationships in the environment. This feature prioritizes user safety by offering actionable insights for navigating the space effectively.
+
+4. **Text-to-Speech Conversion**  
+   Transform any generated text or description into clear, audible speech. This feature allows visually impaired users to listen to scene descriptions, extracted text, or navigation details effortlessly.
+
+#### Our Mission
+VisionAssist AI is dedicated to empowering independence and enhancing accessibility through cutting-edge AI technology.  
+""")
 
 # Main title and description
-st.title("VisionAssist ️")
-st.markdown("AI for Scene Understanding, Text Extraction & Speech for the Visually Impaired ")
+st.title("🌟 VisionAssist AI")
+st.markdown("""
+### Empowering Accessibility Through Generative AI
+*Your assistant for understanding the world through touch and sound.*
+""")
 
 # Image upload section
-st.header("Upload an Image")
-uploaded_file = st.file_uploader("Drag and drop or browse an image (JPG, JPEG, PNG)", type=["jpg", "jpeg", "png"])
+st.header("🔍 Upload an Image")
+uploaded_file = st.file_uploader(
+    "Drag and drop or browse an image (JPG, JPEG, PNG)", 
+    type=["jpg", "jpeg", "png"]
+)
 
 if uploaded_file is not None:
     img = Image.open(uploaded_file)
-    st.image(img, caption="Uploaded Image", use_container_width=True)
+    st.image(img, caption="Uploaded Image")
 
     # Feature Selection Buttons
-    st.subheader("Features")
-    feature_choice = st.radio(
-        "",
-        ["Select an Option", "Describe Scene", "Extract Text", "Safe Navigation"],
-        index=0  # Default to 'Select an Option'
-    )
+    # st.subheader("🛠️ Select a Feature")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        if st.button("🔍 Describe Scene"):
+            st.session_state.active_feature = "scene_description"
+            st.session_state.description = generate_description(img, ACCESSIBLE_DESCRIPTION_PROMPT)
+    with col2:
+        if st.button("📝 Extract Text"):
+            st.session_state.active_feature = "text_extraction"
+            st.session_state.description = extract_text_from_image(img, TEXT_EXTRACTION_PROMPT)
+    with col3:
+        if st.button("🚶 Safe Navigation"):
+            st.session_state.active_feature = "safe_navigation"
+            st.session_state.description = analyze_safe_navigation(img, SAFE_NAVIGATION_PROMPT)
 
-    # Feature actions based on selection
-    if feature_choice == "Describe Scene":
-        st.subheader("Image Description (Text-to-Speech Available)")
-        description = generate_description(img, ACCESSIBLE_DESCRIPTION_PROMPT)
-        st.write(description)
-        if description:  # Only show Text-to-Speech button if description exists
-            if st.button("Convert Description to Speech"):
-                text_to_speech(description)
+    # Display the description based on the active feature
+    if st.session_state.active_feature:
+        st.subheader("📝 Feature Output")
+        st.write(st.session_state.description)
 
-    elif feature_choice == "Extract Text":
-        st.subheader("Extracted Text (Text-to-Speech Available)")
-        extracted_text = extract_text_from_image(img, TEXT_EXTRACTION_PROMPT)
-        st.text_area("Extracted Text", extracted_text, height=200)
-        if extracted_text:  # Only show Text-to-Speech button if extracted text exists
-            if st.button("Convert Text to Speech"):
-                text_to_speech(extracted_text)
-
-    elif feature_choice == "Safe Navigation":
-        st.subheader("Safe Navigation Analysis (Text-to-Speech Available)")
-        navigation_analysis = analyze_safe_navigation(img, SAFE_NAVIGATION_PROMPT)
-        # Display the analysis text fully without a scroll bar
-        st.write(navigation_analysis)  # Replace st.text_area with st.write
-        if navigation_analysis:  # Only show Text-to-Speech button if analysis exists
-            if st.button("Convert Analysis to Speech"):
-                text_to_speech(navigation_analysis)
-
+        # Text-to-Speech Button
+        if st.button("🔊 Convert to Speech"):
+            text_to_speech(st.session_state.description)
