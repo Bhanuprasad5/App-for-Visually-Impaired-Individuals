@@ -22,17 +22,13 @@ Additional Tips:
 - Use words that evoke auditory sensations (e.g., "loud," "quiet," "rumbling").
 - Avoid using phrases like "looks like" or "seems like" as they rely on visual understanding.'''
 
-SAFE_NAVIGATION_PROMPT = ''' Analyze the provided image and identify all objects, obstacles, or potential hazards visible. The response should include the following sections:
-Object Identification:
-List all identified objects, obstacles, and potential hazards.
-Specify the types and positions of each item.
-Describe the spatial relationships among the objects.
-Critical Elements for Navigation:
-Highlight elements critical for safe navigation, such as pathways, obstacles, furniture, or moving objects.
-Detailed Scene Description:
-Use simple and accessible language to describe the scene for someone visually impaired.
-Provide recommendations for actions or precautions to enhance safety.'''
-
+SAFE_NAVIGATION_PROMPT = '''Prompt: "Describe the image in detail for someone visually impaired, focusing on objects, obstacles, 
+and potential hazards. Highlight the types, positions, and spatial relationships of these elements in a clear, accessible way. Emphasize elements critical for safe navigation, such as pathways, obstacles, or moving objects. Use simple, tactile, and auditory language, avoiding visual metaphors or comparisons. Provide actionable safety recommendations where relevant."
+Additional Tips:
+Include tactile descriptions (e.g., "hard," "bumpy," "flat") for surfaces and objects.
+Mention auditory cues if applicable (e.g., "whirring noise from a fan," "steady hum of a refrigerator").
+Use precise terms like "to the left," "in front," or "near the corner" to describe positions.
+Suggest clear actions to enhance safety, such as "step carefully to avoid the raised edge."'''
 # Helper functions
 def extract_text_from_image(image, prompt):
     """Extract text from an image using the Gemini API."""
