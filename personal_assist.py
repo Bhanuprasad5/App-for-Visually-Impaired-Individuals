@@ -61,7 +61,7 @@ def assist_with_image(model, img, prompt_type):
 
 # Streamlit UI setup
 st.set_page_config(
-    page_title="Bhanu Prasad - Visual Assistance AI",
+    page_title=" Visual Assistance AI",
     page_icon="🧠",
     layout="centered",
     initial_sidebar_state="expanded"
@@ -103,7 +103,7 @@ st.markdown("""
 # Header section
 st.markdown('<div class="title-container"><h1>Visual Assistance AI</h1></div>', unsafe_allow_html=True)
 st.markdown("""
-    Welcome to Bhanu Prasad's AI-powered application for assisting visually impaired individuals! 
+    Welcome to AI-powered application for assisting visually impaired individuals! 
     Upload an image, choose a prompt, and let our model generate helpful insights tailored for your needs.
 """)
 
