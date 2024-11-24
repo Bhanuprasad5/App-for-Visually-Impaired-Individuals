@@ -22,11 +22,16 @@ Additional Tips:
 - Use words that evoke auditory sensations (e.g., "loud," "quiet," "rumbling").
 - Avoid using phrases like "looks like" or "seems like" as they rely on visual understanding.'''
 
-SAFE_NAVIGATION_PROMPT = '''Analyze the provided image and identify all objects, obstacles, or potential hazards visible.
-Provide a detailed description of their types, positions, and spatial relationships. 
-Highlight elements critical for safe navigation, such as pathways, obstacles, furniture, or moving objects. 
-Use simple and accessible language to describe the scene for someone visually impaired. 
-Where possible, recommend actions or precautions to enhance safety. give me the output in a structured format. '''
+SAFE_NAVIGATION_PROMPT = ''' Analyze the provided image and identify all objects, obstacles, or potential hazards visible. The response should include the following sections:
+Object Identification:
+List all identified objects, obstacles, and potential hazards.
+Specify the types and positions of each item.
+Describe the spatial relationships among the objects.
+Critical Elements for Navigation:
+Highlight elements critical for safe navigation, such as pathways, obstacles, furniture, or moving objects.
+Detailed Scene Description:
+Use simple and accessible language to describe the scene for someone visually impaired.
+Provide recommendations for actions or precautions to enhance safety.'''
 
 # Helper functions
 def extract_text_from_image(image, prompt):
