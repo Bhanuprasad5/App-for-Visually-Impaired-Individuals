@@ -4,7 +4,7 @@ from gtts import gTTS
 from PIL import Image
 
 # Configure the Gemini API key
-API_KEY = "AIzaSyB-7cKMdUpA5kTccpNxd72IT5CjeSgSmkc"
+API_KEY = "AIzaSyADwgyydHkTf3nZU6CVc1Mnovx6zlS7XmM"
 genai.configure(api_key=API_KEY)
 
 # Define the Gemini model
